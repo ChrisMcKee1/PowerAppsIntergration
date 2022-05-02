@@ -21,3 +21,9 @@ Screen1 As screen:
         Y: =232
         ZIndex: =2
 
+    Label2 As label:
+        Text: ="Test Chris"
+        X: =140
+        Y: =98
+        ZIndex: =3
+
