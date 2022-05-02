@@ -22,7 +22,7 @@ Screen1 As screen:
         ZIndex: =2
 
     Label2 As label:
-        Text: ="Test Chris Wins"
+        Text: ="Joel Wins"
         X: =140
         Y: =98
         ZIndex: =3
