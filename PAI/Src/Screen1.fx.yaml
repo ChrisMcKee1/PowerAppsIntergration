@@ -1,11 +1,13 @@
 Screen1 As screen:
 
     Button1 As button:
+        Height: =97
         OnSelect: |-
             =UpdateContext({flag: !flag})
         Text: ="Press Me!"
-        X: =300
-        Y: =104
+        Width: =287
+        X: =483
+        Y: =41
         ZIndex: =1
 
     Label1 As label:
@@ -13,7 +15,7 @@ Screen1 As screen:
         Height: =164
         Size: =25
         Text: ="Really, you pressed the button"
-        Visible: =flag
+        Visible: =!flag
         Width: =374
         X: =440
         Y: =232
