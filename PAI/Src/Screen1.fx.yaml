@@ -22,7 +22,8 @@ Screen1 As screen:
         ZIndex: =2
 
     Label2 As label:
-        Text: ="Test Chris Wins"
+        FontWeight: =FontWeight.Bold
+        Text: ="Test Chris Wins But Doesn't"
         X: =140
         Y: =98
         ZIndex: =3
