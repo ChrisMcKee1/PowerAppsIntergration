@@ -43,7 +43,6 @@ env:
 jobs:
   convert-to-managed:
     runs-on: windows-latest
-    # or you can say runs-on: ubuntu-latest
     env:
       RUNNER_DEBUG: 1
 
@@ -51,15 +50,23 @@ jobs:
     - uses: actions/checkout@v2
       with:
         lfs: true
-
+        
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@0.4.0
+      with:
+        environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET}}
+        tenant-id: ${{env.TENANT_ID}}
+    
     - name: Export solution as unmanaged
       uses: microsoft/powerplatform-actions/export-solution@0.4.0
       with:
         environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
         app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ env.CLIENT_SECRET }}
+        client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-name: ${{ github.event.inputs.solution_name }}
+        solution-name: ${{ github.event.inputs.solution_name}}
         managed: true
         solution-output-file: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
 
