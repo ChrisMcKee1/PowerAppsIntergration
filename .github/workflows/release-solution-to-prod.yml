@@ -10,7 +10,7 @@ on:
       solution_name:
         description: 'name of the solution to worked on from Power Platform'
         required: true
-        default: ALMLab
+        default: FedExDemo
        #Do Not change these values
       solution_shipping_folder:
         description: 'folder name for staging the exported solution *do not change*'
@@ -34,10 +34,11 @@ on:
 
 env:
 #edit your values here
-  BUILD_ENVIRONMENT_URL: '<BUILDENVIRONMENTURL>'
-  PRODUCTION_ENVIRONMENT_URL: '<PRODENVIRONMENTURL>'
-  CLIENT_ID: '<APPID>'
-  TENANT_ID: '<TENANT ID>'
+  BUILD_ENVIRONMENT_URL: ${{secrets.NONPROD_URL}}
+  PRODUCTION_ENVIRONMENT_URL: ${{secrets.PROD_URL}}
+  CLIENT_ID: ${{secrets.APPLICATION_ID}}
+  TENANT_ID: ${{secrets.TENANT_ID}}
+  CLIENT_SECRET: ${{secrets.SECRET}}
 
 jobs:
   convert-to-managed:
@@ -58,23 +59,23 @@ jobs:
         solution-file: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}.zip
         solution-type: Unmanaged
 
-    - name: Import solution as unmanaged to build env
-      uses: microsoft/powerplatform-actions/import-solution@0.4.0
-      with:
-        environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
-        solution-file: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}.zip
-        force-overwrite: true
-        publish-changes: true
+#     - name: Import solution as unmanaged to build env
+#       uses: microsoft/powerplatform-actions/import-solution@0.4.0
+#       with:
+#         environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
+#         app-id: ${{env.CLIENT_ID}}
+#         client-secret: ${{ env.CLIENT_SECRET }}
+#         tenant-id: ${{env.TENANT_ID}}
+#         solution-file: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}.zip
+#         force-overwrite: true
+#         publish-changes: true
 
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@0.4.0
       with:
         environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
         app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
+        client-secret: ${{ env.CLIENT_SECRET }}
         tenant-id: ${{env.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name }}
         managed: true
@@ -107,7 +108,7 @@ jobs:
       with:
         environment-url: ${{env.PRODUCTION_ENVIRONMENT_URL}}
         app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
+        client-secret: ${{ env.CLIENT_SECRET }}
         tenant-id: ${{env.TENANT_ID}}
         solution-file: ${{ github.event.inputs.solution_release_folder}}/${{ github.event.inputs.solution_name }}.zip
         force-overwrite: true
