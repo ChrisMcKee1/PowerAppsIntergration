@@ -4,30 +4,35 @@ name: release-solution-to-prod
 #   upload the solution to the GitHub artifacts and deploy to the PROD environment
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       # Change this value
       solution_name:
         description: 'name of the solution to worked on from Power Platform'
-        required: true
+        required: false
         default: FedExDemo
+        type: string
        #Do Not change these values
       solution_shipping_folder:
         description: 'folder name for staging the exported solution *do not change*'
-        required: true
+        required: false
         default: out/ship/
+        type: string
       solution_outbound_folder:
         description: 'staging the unpacked solution folder before check-in *do not change*'
-        required: true
+        required: false
         default: out/solutions/
+        type: string
       solution_source_folder: 
        description: 'folder name to be created and checked in *do not change*'
-       required: true
+       required: false
        default: solutions/
+       type: string
       solution_release_folder:
        description: 'folder where the released binaries are going to be hosted *do not change*'
-       required: true
+       required: false
        default: out/release
+       type: string
   release:
     types: [created]
   
