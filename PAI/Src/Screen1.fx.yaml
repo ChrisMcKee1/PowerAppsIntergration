@@ -6,8 +6,8 @@ Screen1 As screen:
             =UpdateContext({flag: !flag})
         Text: ="Press Me!"
         Width: =287
-        X: =483
-        Y: =41
+        X: =464
+        Y: =98
         ZIndex: =1
 
     Label1 As label:
