@@ -34,11 +34,11 @@ on:
 
 env:
 #edit your values here
-  BUILD_ENVIRONMENT_URL: ${{secrets.NONPROD_URL}}
-  PRODUCTION_ENVIRONMENT_URL: ${{secrets.PROD_URL}}
-  CLIENT_ID: ${{secrets.APPLICATION_ID}}
-  TENANT_ID: ${{secrets.TENANT_ID}}
-  CLIENT_SECRET: ${{secrets.SECRET}}
+  BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}
+  PRODUCTION_ENVIRONMENT_URL: ${{ secrets.PROD_URL }}
+  CLIENT_ID: ${{ secrets.APPLICATION_ID }}
+  TENANT_ID: ${{ secrets.TENANT_ID }}
+  CLIENT_SECRET: ${{ secrets.SECRET }}
 
 jobs:
   convert-to-managed:
@@ -54,10 +54,10 @@ jobs:
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@0.4.0
       with:
-        environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
+        environment-url: ${{ env.BUILD_ENVIRONMENT_URL }}
         app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ env.CLIENT_SECRET}}
-        tenant-id: ${{env.TENANT_ID}}
+        client-secret: ${{ secrets.SECRET }}
+        tenant-id: ${{ env.TENANT_ID }}
     
     - name: Export solution as unmanaged
       uses: microsoft/powerplatform-actions/export-solution@0.4.0
