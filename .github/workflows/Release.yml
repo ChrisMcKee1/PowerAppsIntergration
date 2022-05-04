@@ -9,7 +9,7 @@ on:
 
 jobs:
   Release-solution-demo:
-    uses: ./.github/workflows/release-solution-to-prod-manual.yml@main
+    uses: ./.github/workflows/release-solution-to-prod-manual.yml
     with:
       solution_name: Demo
       solution_shipping_folder: out/ship/
