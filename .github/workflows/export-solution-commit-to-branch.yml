@@ -1,7 +1,6 @@
-name: release-solution-to-prod
-# prepare for releasing to prod:
-#   convert solution to managed (using a build PowerPlatform environment for the conversion)
-#   upload the solution to the GitHub artifacts and deploy to the PROD environment
+name: export-solution-commit-to-branch
+# export-solution-commit-to-branch:
+# export the soultuion, unpack the soultion then commit it into version control
 # Useful trigger types [workflow_call, workflow_dispatch]
 on:
   workflow_dispatch:
@@ -28,10 +27,10 @@ on:
        required: false
        default: solutions/
        type: string
-      solution_release_folder:
-       description: 'folder where the released binaries are going to be hosted *do not change*'
+      branch_name:
+       description: 'repo branch name*'
        required: false
-       default: out/release
+       default: development
        type: string
   release:
     types: [created]
