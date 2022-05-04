@@ -4,6 +4,7 @@ name: release-solution-to-prod-manual
 #   upload the solution to the GitHub artifacts and deploy to the PROD environment
 # Useful trigger types [workflow_call, workflow_dispatch]
 on:
+  workflow_call:
   workflow_dispatch:
     inputs:
       # Change this value
@@ -33,8 +34,7 @@ on:
        required: false
        default: out/release
        type: string
-  release:
-    types: [created]
+
   
 
 env:

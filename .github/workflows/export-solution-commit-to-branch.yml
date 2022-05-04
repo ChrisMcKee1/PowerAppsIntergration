@@ -32,9 +32,6 @@ on:
        required: false
        default: development
        type: string
-  release:
-    types: [created]
-  
 
 env:
 #edit your values here
