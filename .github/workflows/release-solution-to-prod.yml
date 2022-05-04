@@ -14,14 +14,12 @@ env:
   CLIENT_ID: ${{ secrets.APPLICATION_ID }}
   TENANT_ID: ${{ secrets.TENANT_ID }}
   CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-
-var:
-  solution_name: 'Demo'
-  solution_shipping_folder: 'out/ship/'
-  solution_outbound_folder: 'out/solutions/'
-  solution_source_folder: 'solutions/'
-  solution_release_folder: 'out/release/'
-
+  SOLUTION_NAME: 'Demo'
+  SOLUTION_SHIPPING_FOLDER: 'out/ship/'
+  SOLUTION_OUTBOUND_FOLDER: 'out/solutions/'
+  SOLUTION_SOURCE_FOLDER: 'solutions/'
+  SOLUTION_RELEASE_FOLDER: 'out/release/'
+  
 jobs:
   convert-to-managed:
     runs-on: windows-latest
@@ -36,8 +34,8 @@ jobs:
     - name: Pack solution
       uses: microsoft/powerplatform-actions/pack-solution@0.4.0
       with:
-        solution-folder: ${{ var.solution_source_folder}}/${{ var.solution_name }}
-        solution-file: ${{ var.solution_outbound_folder}}/${{ var.solution_name }}.zip
+        solution-folder: ${{ env.SOLUTION_SOURCE_FOLDER}}/${{ env.SOLUTION_NAME }}
+        solution-file: ${{ env.SOLUTION_OUTBOUND_FOLDER}}/${{ env.SOLUTION_NAME }}.zip
         solution-type: Unmanaged
 
     - name: Import solution as unmanaged to build env
@@ -47,7 +45,7 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-file: ${{ var.solution_outbound_folder}}/${{ var.solution_name }}.zip
+        solution-file: ${{ env.SOLUTION_OUTBOUND_FOLDER}}/${{ env.SOLUTION_NAME }}.zip
         force-overwrite: true
         publish-changes: true
 
@@ -58,15 +56,15 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-name: ${{ var.solution_name }}
+        solution-name: ${{ env.SOLUTION_NAME }}
         managed: true
-        solution-output-file: ${{ var.solution_shipping_folder}}/${{ var.solution_name }}.zip
+        solution-output-file: ${{ env.SOLUTION_SHIPPING_FOLDER}}/${{ env.SOLUTION_NAME }}.zip
 
     - name: Upload the ready to ship solution to GH artifact store
       uses: actions/upload-artifact@v2
       with:
         name: managedSolutions
-        path: ${{ var.solution_shipping_folder}}/${{ var.solution_name }}.zip
+        path: ${{ env.SOLUTION_SHIPPING_FOLDER}}/${{ env.SOLUTION_NAME }}.zip
 
   release-to-staging:
     needs: [ convert-to-managed ]
@@ -92,6 +90,6 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-file: ${{ var.solution_release_folder}}/${{ var.solution_name }}.zip
+        solution-file: ${{ env.SOLUTION_RELEASE_FOLDER}}/${{ env.SOLUTION_NAME }}.zip
         force-overwrite: true
         publish-changes: true
