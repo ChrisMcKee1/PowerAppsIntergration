@@ -5,6 +5,25 @@ name: release-solution-to-prod-manual
 # Useful trigger types [workflow_call, workflow_dispatch]
 on:
   workflow_call:
+      inputs:
+      # Change this value
+      solution_name:
+        required: false
+        type: string
+       #Do Not change these values
+      solution_shipping_folder:
+        required: false
+        type: string
+      solution_outbound_folder:
+        required: false
+        type: string
+      solution_source_folder: 
+       required: false
+       type: string
+      solution_release_folder:
+       required: false
+       type: string
+       
   workflow_dispatch:
     inputs:
       # Change this value
