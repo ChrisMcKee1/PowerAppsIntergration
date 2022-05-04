@@ -1,0 +1,76 @@
+name: release-solution-to-prod
+# prepare for releasing to prod:
+#   convert solution to managed (using a build PowerPlatform environment for the conversion)
+#   upload the solution to the GitHub artifacts and deploy to the PROD environment
+# Useful trigger types [workflow_call, workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      # Change this value
+      solution_name:
+        description: 'name of the solution to worked on from Power Platform'
+        required: false
+        default: FedExDemo
+        type: string
+       #Do Not change these values
+      solution_shipping_folder:
+        description: 'folder name for staging the exported solution *do not change*'
+        required: false
+        default: out/ship/
+        type: string
+      solution_outbound_folder:
+        description: 'staging the unpacked solution folder before check-in *do not change*'
+        required: false
+        default: out/solutions/
+        type: string
+      solution_source_folder: 
+       description: 'folder name to be created and checked in *do not change*'
+       required: false
+       default: solutions/
+       type: string
+      solution_release_folder:
+       description: 'folder where the released binaries are going to be hosted *do not change*'
+       required: false
+       default: out/release
+       type: string
+  release:
+    types: [created]
+  
+
+env:
+#edit your values here
+  BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}
+  PRODUCTION_ENVIRONMENT_URL: ${{ secrets.PROD_URL }}
+  CLIENT_ID: ${{ secrets.APPLICATION_ID }}
+  TENANT_ID: ${{ secrets.TENANT_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
+jobs:
+  convert-to-managed:
+    runs-on: windows-latest
+    env:
+      RUNNER_DEBUG: 1
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+        
+    - name: who-am-i action
+      uses: microsoft/powerplatform-actions/who-am-i@0.4.0
+      with:
+        environment-url: ${{ env.BUILD_ENVIRONMENT_URL }}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET }}
+        tenant-id: ${{ env.TENANT_ID }}
+    
+    - name: Export solution as unmanaged
+      uses: microsoft/powerplatform-actions/export-solution@0.4.0
+      with:
+        environment-url: ${{env.BUILD_ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET}}
+        tenant-id: ${{env.TENANT_ID}}
+        solution-name: ${{ github.event.inputs.solution_name}}
+        managed: true
+        solution-output-file: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
