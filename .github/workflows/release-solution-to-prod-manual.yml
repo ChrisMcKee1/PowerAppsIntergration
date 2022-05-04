@@ -54,8 +54,6 @@ on:
        default: out/release
        type: string
 
-  
-
 env:
 #edit your values here
   BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}

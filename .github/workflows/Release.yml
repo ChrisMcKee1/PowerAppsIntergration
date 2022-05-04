@@ -4,13 +4,12 @@ name: Release action
 
 on:
   release:
-      types: [created]        
+      types: [created]
 
 jobs:
-  Release-solution-ALMLab:
+  Release-solution-demo:
     uses: ./.github/workflows/release-solution-to-prod-manual.yml
     with:
-      #You can specify the solution name here
       solution_name: Demo
       solution_shipping_folder: out/ship/
       solution_outbound_folder: out/solutions/
