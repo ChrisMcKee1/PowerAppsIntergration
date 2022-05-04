@@ -12,17 +12,17 @@ on:
         default: Demo
         type: string
       #Do Not change these values
-      solution_shipping_folder:
+      solution_exported_folder:
         description: 'folder name for staging the exported solution *do not change*'
         required: false
-        default: out/ship/
+        default: out/exported/
         type: string
       solution_outbound_folder:
         description: 'staging the unpacked solution folder before check-in *do not change*'
         required: false
         default: out/solutions/
         type: string
-      solution_source_folder: 
+      solution_target_folder: 
        description: 'folder name to be created and checked in *do not change*'
        required: false
        default: solutions/
@@ -72,12 +72,12 @@ jobs:
         tenant-id: ${{env.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name}}
         managed: false
-        solution-output-file: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-output-file: ${{ github.event.inputs.solution_exported_folder}}/${{ github.event.inputs.solution_name}}.zip
 
     - name: unpack-solution action
       uses: microsoft/powerplatform-actions/unpack-solution@0.4.0
       with:
-        solution-file: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-file: ${{ github.event.inputs.solution_exported_folder}}/${{ github.event.inputs.solution_name}}.zip
         solution-folder: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}
         solution-type: 'Unmanaged'
         overwrite-files: true
@@ -86,7 +86,7 @@ jobs:
       uses: microsoft/powerplatform-actions/branch-solution@0.4.0
       with:
         solution-folder: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}
-        solution-target-folder: ${{ github.event.inputs.solution_target_folder}}/${{ github.event.inputs.solution_name }}
+        solution-target-folder: ${{ github.event.inputs.solution_target_folder}}/${{ github.event.inputs.solution_name}}
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         allow-empty-commit: true
         branch-name: ${{ github.event.inputs.branch_name}}
