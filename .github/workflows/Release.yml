@@ -6,9 +6,10 @@ on:
   release:
       types: [created]
 
+
 jobs:
   Release-solution-demo:
-    uses: ./.github/workflows/release-solution-to-prod-manual.yml
+    uses: ./.github/workflows/release-solution-to-prod-manual.yml@main
     with:
       solution_name: Demo
       solution_shipping_folder: out/ship/
