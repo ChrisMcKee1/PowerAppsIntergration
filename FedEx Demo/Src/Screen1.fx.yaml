@@ -3,7 +3,7 @@ Screen1 As screen:
     Button1 As button:
         Height: =122
         OnSelect: |-
-            =UpdateContext({Text: "Power Apps is Fun"})
+            =UpdateContext({Text1: "Power Apps is Fun"})
         Text: ="My Button"
         Width: =295
         X: =40
