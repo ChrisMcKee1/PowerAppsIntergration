@@ -6,3 +6,13 @@ Screen1 As screen:
         Y: =320
         ZIndex: =1
 
+    Button1 As button:
+        Height: =122
+        OnSelect: |-
+            =UpdateContext({Text: "Power Apps is Fun"})
+        Text: ="My Button"
+        Width: =295
+        X: =40
+        Y: =40
+        ZIndex: =1
+
