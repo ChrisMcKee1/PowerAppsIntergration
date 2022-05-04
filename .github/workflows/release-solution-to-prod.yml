@@ -4,7 +4,7 @@ name: release-solution-to-prod
 #   upload the solution to the GitHub artifacts and deploy to the PROD environment
 # Useful trigger types [workflow_call, workflow_dispatch]
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       # Change this value
       solution_name:
