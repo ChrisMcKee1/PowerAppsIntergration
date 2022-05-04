@@ -11,7 +11,7 @@ Screen1 As screen:
         ZIndex: =1
 
     Label1 As label:
-        Text: ="Text"
+        Text: =Text1
         X: =460
         Y: =320
         ZIndex: =1
