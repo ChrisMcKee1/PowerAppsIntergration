@@ -4,33 +4,8 @@ name: release-solution-to-prod
 #   upload the solution to the GitHub artifacts and deploy to the PROD environment
 
 on:
-  workflow_dispatch:
-    inputs:
-      # Change this value
-      solution_name:
-        description: 'name of the solution to worked on from Power Platform'
-        required: false
-        default: Demo
-       #Do Not change these values
-      solution_shipping_folder:
-        description: 'folder name for staging the exported solution *do not change*'
-        required: false
-        default: out/ship/
-      solution_outbound_folder:
-        description: 'staging the unpacked solution folder before check-in *do not change*'
-        required: false
-        default: out/solutions/
-      solution_source_folder:
-       description: 'folder name to be created and checked in *do not change*'
-       required: false
-       default: solutions/
-      solution_release_folder:
-       description: 'folder where the released binaries are going to be hosted *do not change*'
-       required: false
-       default: out/release
-  release:
-    types: [created]
-
+  workflow_call:
+  
 env:
 #edit your values here
   BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}
@@ -38,6 +13,13 @@ env:
   CLIENT_ID: ${{ secrets.APPLICATION_ID }}
   TENANT_ID: ${{ secrets.TENANT_ID }}
   CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
+var:
+  solution_name: 'Demo'
+  solution_shipping_folder: 'out/ship/'
+  solution_outbound_folder: 'out/solutions/'
+  solution_source_folder: 'solutions/'
+  solution_release_folder: 'out/release/'
 
 jobs:
   convert-to-managed:
@@ -53,8 +35,8 @@ jobs:
     - name: Pack solution
       uses: microsoft/powerplatform-actions/pack-solution@0.4.0
       with:
-        solution-folder: ${{ github.event.inputs.solution_source_folder}}/${{ github.event.inputs.solution_name }}
-        solution-file: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-folder: ${{ var.solution_source_folder}}/${{ var.solution_name }}
+        solution-file: ${{ var.solution_outbound_folder}}/${{ var.solution_name }}.zip
         solution-type: Unmanaged
 
     - name: Import solution as unmanaged to build env
@@ -64,7 +46,7 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-file: ${{ github.event.inputs.solution_outbound_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-file: ${{ var.solution_outbound_folder}}/${{ var.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
 
@@ -75,15 +57,15 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-name: ${{ github.event.inputs.solution_name }}
+        solution-name: ${{ var.solution_name }}
         managed: true
-        solution-output-file: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-output-file: ${{ var.solution_shipping_folder}}/${{ var.solution_name }}.zip
 
     - name: Upload the ready to ship solution to GH artifact store
       uses: actions/upload-artifact@v2
       with:
         name: managedSolutions
-        path: ${{ github.event.inputs.solution_shipping_folder}}/${{ github.event.inputs.solution_name }}.zip
+        path: ${{ var.solution_shipping_folder}}/${{ var.solution_name }}.zip
 
   release-to-staging:
     needs: [ convert-to-managed ]
@@ -109,6 +91,6 @@ jobs:
         app-id: ${{env.CLIENT_ID}}
         client-secret: ${{ env.CLIENT_SECRET}}
         tenant-id: ${{env.TENANT_ID}}
-        solution-file: ${{ github.event.inputs.solution_release_folder}}/${{ github.event.inputs.solution_name }}.zip
+        solution-file: ${{ var.solution_release_folder}}/${{ var.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
