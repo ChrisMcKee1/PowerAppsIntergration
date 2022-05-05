@@ -1,7 +1,6 @@
 name: export-solution-commit-to-branch
 # export-solution-commit-to-branch:
 # export the solution, unpack the solution then commit it into version control
-# Useful trigger types [workflow_call, workflow_dispatch]
 on:
   workflow_dispatch:
     inputs:
@@ -23,18 +22,18 @@ on:
         default: out/solutions/
         type: string
       solution_target_folder: 
-       description: 'folder name to be created and checked in *do not change*'
-       required: false
-       default: solutions/
-       type: string
+        description: 'folder name to be created and checked in *do not change*'
+        required: false
+        default: solutions/
+        type: string
       branch_name:
-       description: 'repo branch name*'
-       required: false
-       default: development
-       type: string
+        description: 'repo branch name*'
+        required: false
+        default: development
+        type: string
 
 env:
-#edit your values here
+# edit your values here
   BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}
   PRODUCTION_ENVIRONMENT_URL: ${{ secrets.PROD_URL }}
   CLIENT_ID: ${{ secrets.APPLICATION_ID }}

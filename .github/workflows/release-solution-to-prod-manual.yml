@@ -1,14 +1,14 @@
 name: release-solution-to-prod-manual
 # prepare for releasing to prod:
-#   convert solution to managed (using a build PowerPlatform environment for the conversion)
-#   upload the solution to the GitHub artifacts and deploy to the PROD environment
-# Useful trigger types [workflow_call, workflow_dispatch]
+# convert solution to managed (using a build PowerPlatform environment for the conversion)
+# upload the solution to the GitHub artifacts and deploy to the PROD environment
+
 on:
   release:
     types: [created]
 
 env:
-#edit your values here
+# edit your values here
   BUILD_ENVIRONMENT_URL: ${{ secrets.NONPROD_URL }}
   PRODUCTION_ENVIRONMENT_URL: ${{ secrets.PROD_URL }}
   CLIENT_ID: ${{ secrets.APPLICATION_ID }}
