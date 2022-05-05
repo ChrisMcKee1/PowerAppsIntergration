@@ -16,3 +16,9 @@ Screen1 As screen:
         Y: =320
         ZIndex: =1
 
+    Label2 As label:
+        Text: ="Hello, this is Sean"
+        X: =576
+        Y: =144
+        ZIndex: =2
+
