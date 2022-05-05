@@ -18,7 +18,7 @@ Screen1 As screen:
 
     Label2 As label:
         Text: ="This is Chris"
-        X: =237
-        Y: =437
+        X: =224
+        Y: =376
         ZIndex: =2
 
