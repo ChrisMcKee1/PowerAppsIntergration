@@ -6,8 +6,8 @@ Screen1 As screen:
             =UpdateContext({Text1: "Power Apps is Fun"})
         Text: ="My Button"
         Width: =295
-        X: =40
-        Y: =40
+        X: =165
+        Y: =125
         ZIndex: =1
 
     Label1 As label:
@@ -15,4 +15,10 @@ Screen1 As screen:
         X: =460
         Y: =320
         ZIndex: =1
+
+    Label2 As label:
+        Text: ="This is Chris"
+        X: =237
+        Y: =437
+        ZIndex: =2
 
