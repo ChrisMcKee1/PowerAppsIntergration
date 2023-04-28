@@ -1,0 +1,32 @@
+name: paportal-upload-instance-actions
+
+on:
+  workflow_dispatch:
+
+env:
+# edit your values here
+  BUILD_ENVIRONMENT_URL: ${{ secrets.ENVIRONMENT_URL }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  TENANT_ID: ${{ secrets.TENANT_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  
+jobs:
+  build:
+    runs-on: windows-latest   # alternate runner OS is: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+          
+      - name: powerplatform-actions
+        uses: microsoft/powerplatform-actions@v0.10.5
+        
+      - name: uploadPortalPage
+        uses: microsoft/powerplatform-actions/upload-paportal@0
+        with:
+          environment-url: ${{ env.BUILD_ENVIRONMENT_URL }}
+          app-id: ${{env.CLIENT_ID}}
+          client-secret: ${{ env.CLIENT_SECRET }}
+          tenant-id: ${{ env.TENANT_ID }}
+          upload-path: ./.
+        
